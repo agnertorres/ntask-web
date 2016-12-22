@@ -657,70 +657,72 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Signin = function (_NTask) {
-	_inherits(Signin, _NTask);
+  _inherits(Signin, _NTask);
 
-	function Signin(body) {
-		_classCallCheck(this, Signin);
+  function Signin(body) {
+    _classCallCheck(this, Signin);
 
-		var _this = _possibleConstructorReturn(this, (Signin.__proto__ || Object.getPrototypeOf(Signin)).call(this));
+    var _this = _possibleConstructorReturn(this, (Signin.__proto__ || Object.getPrototypeOf(Signin)).call(this));
 
-		_this.body = body;
-		return _this;
-	}
+    _this.body = body;
+    return _this;
+  }
 
-	_createClass(Signin, [{
-		key: "render",
-		value: function render() {
-			this.body.innerHTML = _signin2.default.render();
-			this.body.querySelector("[data-email]").focus();
-			this.addEventListener();
-		}
-	}, {
-		key: "addEventListener",
-		value: function addEventListener() {
-			this.formSubmit();
-			this.signupClick();
-		}
-	}, {
-		key: "formSubmit",
-		value: function formSubmit() {
-			var _this2 = this;
+  _createClass(Signin, [{
+    key: "render",
+    value: function render() {
+      this.body.innerHTML = _signin2.default.render();
+      this.body.querySelector("[data-email]").focus();
+      this.addEventListener();
+    }
+  }, {
+    key: "addEventListener",
+    value: function addEventListener() {
+      this.formSubmit();
+      this.signupClick();
+    }
+  }, {
+    key: "formSubmit",
+    value: function formSubmit() {
+      var _this2 = this;
 
-			var form = this.body.querySelector("form");
+      var form = this.body.querySelector("form");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var email = e.target.querySelector("[data-email]");
+        var password = e.target.querySelector("[data-password]");
+        var opts = {
+          method: "POST",
+          url: _this2.URL + "/token",
+          json: true,
+          body: {
+            email: email.value,
+            password: password.value
+          }
+        };
+        _this2.request(opts, function (err, resp, data) {
+          if (err || resp.status === 401) {
+            _this2.emit("error", err);
+          } else {
+            _this2.emit("signin", data.token);
+          }
+        });
+      });
+    }
+  }, {
+    key: "signupClick",
+    value: function signupClick() {
+      var _this3 = this;
 
-			form.addEventListener("submit", function (e) {
+      var signup = this.body.querySelector("[data-signup]");
+      signup.addEventListener("click", function (e) {
+        e.preventDefault();
+        _this3.emit("signup");
+      });
+    }
+  }]);
 
-				console.log(form);
-				e.preventDefault();
-
-				var email = e.target.querySelector("[data-email]");
-				var password = e.target.querySelector("[data-password]");
-				var opts = {
-					method: "POST",
-					url: _this2.URL + "/token",
-					json: true,
-					body: {
-						email: email.value,
-						password: password.value
-					}
-				};
-			});
-		}
-	}, {
-		key: "signupClick",
-		value: function signupClick() {
-			var _this3 = this;
-
-			var signup = this.body.querySelector("[data-signup]");
-
-			signup.addEventListener("click", function (e) {
-				e.preventDefault();
-				_this3.emit("signup");
-			});
-		}
-	}]);
-
-	return Signin;
+  return Signin;
 }(_ntask2.default);
 
 module.exports = Signin;
@@ -747,70 +749,62 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Signup = function (_NTask) {
-	_inherits(Signup, _NTask);
+  _inherits(Signup, _NTask);
 
-	function Signup(body) {
-		_classCallCheck(this, Signup);
+  function Signup(body) {
+    _classCallCheck(this, Signup);
 
-		var _this = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this));
+    var _this = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this));
 
-		_this.body = body;
-		return _this;
-	}
+    _this.body = body;
+    return _this;
+  }
 
-	_createClass(Signup, [{
-		key: "render",
-		value: function render() {
-			this.body.innerHTML = _signup2.default.render();
-			this.body.querySelector("[data-name]").focus();
-			this.addEventListener();
-		}
-	}, {
-		key: "addEventListener",
-		value: function addEventListener() {
-			this.formSubmit();
-		}
-	}, {
-		key: "formSubmit",
-		value: function formSubmit() {
-			var _this2 = this;
+  _createClass(Signup, [{
+    key: "render",
+    value: function render() {
+      this.body.innerHTML = _signup2.default.render();
+      this.body.querySelector("[data-name]").focus();
+      this.addEventListener();
+    }
+  }, {
+    key: "addEventListener",
+    value: function addEventListener() {
+      this.formSubmit();
+    }
+  }, {
+    key: "formSubmit",
+    value: function formSubmit() {
+      var _this2 = this;
 
-			var form = this.body.querySelector("form");
+      var form = this.body.querySelector("form");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var name = e.target.querySelector("[data-name]");
+        var email = e.target.querySelector("[data-email]");
+        var password = e.target.querySelector("[data-password]");
+        var opts = {
+          method: "POST",
+          url: _this2.URL + "/users",
+          json: true,
+          body: {
+            name: name.value,
+            email: email.value,
+            password: password.value
+          }
+        };
+        _this2.request(opts, function (err, resp, data) {
+          if (err || resp.status === 412) {
+            _this2.emit("error", err);
+          } else {
+            _this2.emit("signup", data);
+          }
+        });
+      });
+    }
+  }]);
 
-			form.addEventListener("submit", function (e) {
-				e.preventDefault();
-
-				var name = e.target.querySelector("[data-name]");
-				var email = e.target.querySelector("[data-email]");
-				var password = e.target.querySelector("[data-password]");
-
-				var opts = {
-					method: "POST",
-					url: _this2.URL + "/users",
-					json: true,
-					body: {
-						name: name.value,
-						email: email.value,
-						password: password.value
-					}
-				};
-
-				console.log(_this2);
-
-				_this2.request(opts, function (err, resp, data) {
-					console.log(_this2);
-					console.log(opts);
-					if (err || resp.status === 412) {
-						_this2.emit("error", err);
-					} else {
-						_this2.emit("signup", data);
-					}
-				});
-			});
-		}
-	}]);
-
-	return Signup;
+  return Signup;
 }(_ntask2.default);
 
 module.exports = Signup;
@@ -856,14 +850,14 @@ module.exports = NTask;
 "use strict";
 
 exports.render = function () {
-	return "<form>\n\t\t\t\t\t<div class=\"list\">\n\t\t\t\t\t\t<label class=\"item item-input item-stacked-label\">\n\t\t\t\t\t\t\t<span class=\"input-label\">Email</span>\n\t\t\t\t\t\t\t<input type=\"text\" data-email>\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label class=\"item item-input item-stacked-label\">\n\t\t\t\t\t\t\t<span class=\"input-label\">Senha</span>\n\t\t\t\t\t\t\t<input type=\"password\" data-password>\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"padding\">\n\t\t\t\t\t\t<button class=\"button button-positive button-block\">\n\t\t\t\t\t\t\t<i class=\"ion-home\"></i> Entrar\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t\t<div class=\"padding\">\n\t\t\t\t\t<button class=\"button button-block\" data-signup>\n\t\t\t\t\t\t<i class=\"ion-person-add\"></i> Cadastrar\n\t\t\t\t\t</button>\n\t\t\t\t</div>";
+  return "<form>\n<div class=\"list\">\n<label class=\"item item-input item-stacked-label\">\n<span class=\"input-label\">Email</span>\n<input type=\"text\" data-email>\n</label>\n<label class=\"item item-input item-stacked-label\">\n<span class=\"input-label\">Senha</span>\n<input type=\"password\" data-password>\n</label>\n</div>\n<div class=\"padding\">\n<button class=\"button button-positive button-block\">\n<i class=\"ion-home\"></i> Entrar\n</button>\n</div>\n</form>\n<div class=\"padding\">\n<button class=\"button button-block\" data-signup>\n<i class=\"ion-person-add\"></i> Cadastrar\n</button>\n</div>";
 };
 
 },{}],8:[function(require,module,exports){
 "use strict";
 
 exports.render = function () {
-	return "<form>\n\t\t<div class=\"list\">\n\t\t\t<label class=\"item item-input item-stacked-label\">\n\t\t\t\t<span class=\"input-label\">Nome</span>\n\t\t\t\t<input type=\"text\" data-name>\n\t\t\t</label>\n\t\t\t<label class=\"item item-input item-stacked-label\">\n\t\t\t\t<span class=\"input-label\">Email</span>\n\t\t\t\t<input type=\"text\" data-email>\n\t\t\t</label>\n\t\t\t<label class=\"item item-input item-stacked-label\">\n\t\t\t\t<span class=\"input-label\">Senha</span>\n\t\t\t\t<input type=\"password\" data-password>\n\t\t\t</label>\n\t\t</div>\n\t\t<div class=\"padding\">\n\t\t\t<button class=\"button button-positive button-block\">\n\t\t\t\t<i class=\"ion-thumbsup\"></i> Cadastrar\n\t\t\t</button>\n\t\t</div>\n\t</form>";
+  return "<form>\n<div class=\"list\">\n<label class=\"item item-input item-stacked-label\">\n<span class=\"input-label\">Nome</span>\n<input type=\"text\" data-name>\n</label>\n<label class=\"item item-input item-stacked-label\">\n<span class=\"input-label\">Email</span>\n<input type=\"text\" data-email>\n</label>\n<label class=\"item item-input item-stacked-label\">\n<span class=\"input-label\">Senha</span>\n<input type=\"password\" data-password>\n</label>\n</div>\n<div class=\"padding\">\n<button class=\"button button-positive button-block\">\n<i class=\"ion-thumbsup\"></i> Cadastrar\n</button>\n</div>\n</form>";
 };
 
 },{}],9:[function(require,module,exports){

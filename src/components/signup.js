@@ -2,7 +2,6 @@ import NTask from "../ntask.js";
 import Template from "../templates/signup.js";
 
 class Signup extends NTask {
-	
 	constructor(body) {
 		super();
 		this.body = body;
@@ -27,7 +26,7 @@ class Signup extends NTask {
 			const name = e.target.querySelector("[data-name]");
 			const email = e.target.querySelector("[data-email]");
 			const password = e.target.querySelector("[data-password]");
-			
+
 			const opts = {
 				method: "POST",
 				url: `${this.URL}/users`,
@@ -39,11 +38,7 @@ class Signup extends NTask {
 				}
 			};
 
-			console.log(this)
-
 			this.request(opts, (err, resp, data) => {
-				console.log(this);
-				console.log(opts);
 				if (err || resp.status === 412) {
 					this.emit("error", err);
 				} else {
